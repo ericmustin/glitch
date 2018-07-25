@@ -1,0 +1,17 @@
+{
+  "name": "tsla_halt_app",
+  "version": "1.0.0",
+  "description": "check if tsla is halted",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "express-partials": "^0.3.0",
+    "request": "^2.87.0"
+  }
+}

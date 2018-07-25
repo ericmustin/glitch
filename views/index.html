@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="https://cdn.glitch.com/9719e558-9d22-40ad-abe6-69021c735cc8%2Ffavicon.ico?1532461997697"/>
+  <title>📈 Is TSLA Halted? </title>
+  <meta name="description" content="Check If TSLA Is Halted">
+
+
+  <meta name="twitter:title" content="📈 Is TSLA Halted?">
+  <meta name="twitter:description" content="Check If TSLA Is Halted">
+  <meta name="twitter:image" content="https://emojipedia-us.s3.amazonaws.com/thumbs/120/apple/126/crystal-ball_1f52e.png">
+  <meta name="twitter:creator" content="@EricMustin">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta property="og:title" content="📈 Is TSLA Halted?">
+  <meta property="og:description" content="Check If TSLA Is Halted">
+  <meta property="og:image" content="https://emojipedia-us.s3.amazonaws.com/thumbs/120/apple/126/crystal-ball_1f52e.png">
+
+  <style type="text/css">
+  body {
+      height: 100vh;
+      width: 100vw;
+      background-color: #eee !important;
+      color: #333 !important;
+      overflow: hidden;
+  }
+
+  body #info {
+    display: block;
+    position: relative;
+    float: left;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  span {
+    font-size: 24px;
+    font-family: avenir;
+    font-weight: bold;
+    line-height: 24px;
+    color: #333;
+  }
+
+  #answer {
+    text-decoration: none;
+    opacity: 1;
+    animation: spinner 5s linear infinite;
+    width: 100%;
+    color: #333;
+  }
+
+  @keyframes spinner {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.1;
+      color: #cc0000;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+</head>
+<body>
+    <div id="info">
+        <span id="question">
+          Is Tesla Halted? ...
+        </span>
+        <span id="answer">
+        (checking)
+        </span>
+    </div>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // sure a set timeout why not
+      window.setTimeout( function() {
+        // this endpoint is basically just pinging nasdaqs rss once a minute
+        $.get("/api/info").done(function(body, error, response) {
+          if (error !== 'success') {
+            var answer = $('#answer');
+            answer.css('animation', 'none')
+            answer.text('(error)')
+            return;
+          }
+          if (body.error === true) {
+            var answer = $('#answer');
+            answer.css('animation', 'none')
+            answer.text('(error)')
+            return
+          } else {
+            var isHalted = body.data ? "Yes" : "No";
+            var answer = $('#answer');
+            answer.css('animation', 'none')
+            answer.text(isHalted);
+          }
+        });
+      }, 2000)
+    });
+  </script>
+</body>
+</html>
