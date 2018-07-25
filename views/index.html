@@ -25,6 +25,7 @@
       width: 100vw;
       background-color: #eee !important;
       color: #333 !important;
+      overflow: hidden;
   }
 
   body #info {
@@ -45,7 +46,25 @@
   }
 
   #answer {
-    text-decoration: underline;
+    text-decoration: none;
+    opacity: 1;
+    animation: spinner 5s linear infinite;
+    width: 100%;
+    color: #333;
+  }
+
+  @keyframes spinner {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.1;
+      color: #cc0000;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
   </style>
@@ -57,23 +76,34 @@
           Is Tesla Halted? ...
         </span>
         <span id="answer">
+        (checking)
         </span>
     </div>
   <script type="text/javascript">
     $(document).ready(function() {
-      $.get("/api/info").done(function(body, error, response) {
-        if (error !== 'success') {
-            console.log('error 1');
+      // sure a set timeout why not
+      window.setTimeout( function() {
+        // this endpoint is basically just pinging nasdaqs rss once a minute
+        $.get("/api/info").done(function(body, error, response) {
+          if (error !== 'success') {
+            var answer = $('#answer');
+            answer.css('animation', 'none')
+            answer.text('(error)')
             return;
-        }
-        if (body.error === true) {
+          }
+          if (body.error === true) {
+            var answer = $('#answer');
+            answer.css('animation', 'none')
+            answer.text('(error)')
             return
-        } else {
-          var isHalted = body.data ? "Yes" : "No";
-          var answer = $('#answer');
-          answer.text(isHalted);
-        }
-      });
+          } else {
+            var isHalted = body.data ? "Yes" : "No";
+            var answer = $('#answer');
+            answer.css('animation', 'none')
+            answer.text(isHalted);
+          }
+        });
+      }, 2000)
     });
   </script>
 </body>
